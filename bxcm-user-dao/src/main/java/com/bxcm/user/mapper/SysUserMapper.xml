@@ -1,0 +1,1666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bxcm.user.mapper.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.bxcm.user.bean.SysUser">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="CHAR" property="userId" />
+        <result column="domain_id" jdbcType="CHAR" property="domainId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+        <result column="user_type" jdbcType="SMALLINT" property="userType" />
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+        <result column="user_status" jdbcType="SMALLINT" property="userStatus" />
+        <result column="user_remark" jdbcType="VARCHAR" property="userRemark" />
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, user_id, domain_id, user_name, user_phone, user_email, user_type, user_password, 
+        user_status, user_remark, is_deleted, create_time, update_time
+    </sql>
+    <select id="selectByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null and limit &gt;= 0">
+            limit #{offset} , #{limit}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </select>
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update sys_user set is_deleted = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="deleteByExample" parameterType="com.bxcm.user.bean.SysUserExample">
+        update sys_user set is_deleted = 1
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </update>
+    <insert id="insert" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user (user_id, domain_id, user_name, 
+            user_phone, user_email, user_type, 
+            user_password, user_status, user_remark, 
+            is_deleted, create_time, update_time
+            )
+        values (#{userId,jdbcType=CHAR}, #{domainId,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, 
+            #{userPhone,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, #{userType,jdbcType=SMALLINT}, 
+            #{userPassword,jdbcType=VARCHAR}, #{userStatus,jdbcType=SMALLINT}, #{userRemark,jdbcType=VARCHAR}, 
+            #{isDeleted,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+            )
+    </insert>
+    <insert id="insertSelective" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="domainId != null">
+                domain_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="userEmail != null">
+                user_email,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="userRemark != null">
+                user_remark,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=CHAR},
+            </if>
+            <if test="domainId != null">
+                #{domainId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultType="java.lang.Integer">
+        select count(*) from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_user
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=CHAR},
+            </if>
+            <if test="record.domainId != null">
+                domain_id = #{record.domainId,jdbcType=CHAR},
+            </if>
+            <if test="record.userName != null">
+                user_name = #{record.userName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userPhone != null">
+                user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userEmail != null">
+                user_email = #{record.userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userType != null">
+                user_type = #{record.userType,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userPassword != null">
+                user_password = #{record.userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userStatus != null">
+                user_status = #{record.userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userRemark != null">
+                user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isDeleted != null">
+                is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_user
+        set id = #{record.id,jdbcType=INTEGER},
+            user_id = #{record.userId,jdbcType=CHAR},
+            domain_id = #{record.domainId,jdbcType=CHAR},
+            user_name = #{record.userName,jdbcType=VARCHAR},
+            user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            user_email = #{record.userEmail,jdbcType=VARCHAR},
+            user_type = #{record.userType,jdbcType=SMALLINT},
+            user_password = #{record.userPassword,jdbcType=VARCHAR},
+            user_status = #{record.userStatus,jdbcType=SMALLINT},
+            user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=CHAR},
+            </if>
+            <if test="domainId != null">
+                domain_id = #{domainId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                user_remark = #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        set user_id = #{userId,jdbcType=CHAR},
+            domain_id = #{domainId,jdbcType=CHAR},
+            user_name = #{userName,jdbcType=VARCHAR},
+            user_phone = #{userPhone,jdbcType=VARCHAR},
+            user_email = #{userEmail,jdbcType=VARCHAR},
+            user_type = #{userType,jdbcType=SMALLINT},
+            user_password = #{userPassword,jdbcType=VARCHAR},
+            user_status = #{userStatus,jdbcType=SMALLINT},
+            user_remark = #{userRemark,jdbcType=VARCHAR},
+            is_deleted = #{isDeleted,jdbcType=TINYINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+    <resultMap id="BaseResultMap" type="com.bxcm.user.bean.SysUser">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="CHAR" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+        <result column="user_type" jdbcType="SMALLINT" property="userType" />
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+        <result column="user_status" jdbcType="SMALLINT" property="userStatus" />
+        <result column="user_remark" jdbcType="VARCHAR" property="userRemark" />
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, user_id, user_name, user_phone, user_email, user_type, user_password, user_status, 
+        user_remark, is_deleted, create_time, update_time
+    </sql>
+    <select id="selectByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null and limit &gt;= 0">
+            limit #{offset} , #{limit}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </select>
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update sys_user set is_deleted = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="deleteByExample" parameterType="com.bxcm.user.bean.SysUserExample">
+        update sys_user set is_deleted = 1
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </update>
+    <insert id="insert" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user (user_id, user_name, user_phone, 
+            user_email, user_type, user_password, 
+            user_status, user_remark, is_deleted, 
+            create_time, update_time)
+        values (#{userId,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+            #{userEmail,jdbcType=VARCHAR}, #{userType,jdbcType=SMALLINT}, #{userPassword,jdbcType=VARCHAR}, 
+            #{userStatus,jdbcType=SMALLINT}, #{userRemark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, 
+            #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="userEmail != null">
+                user_email,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="userRemark != null">
+                user_remark,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultType="java.lang.Integer">
+        select count(*) from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_user
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=CHAR},
+            </if>
+            <if test="record.userName != null">
+                user_name = #{record.userName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userPhone != null">
+                user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userEmail != null">
+                user_email = #{record.userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userType != null">
+                user_type = #{record.userType,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userPassword != null">
+                user_password = #{record.userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userStatus != null">
+                user_status = #{record.userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userRemark != null">
+                user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isDeleted != null">
+                is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_user
+        set id = #{record.id,jdbcType=INTEGER},
+            user_id = #{record.userId,jdbcType=CHAR},
+            user_name = #{record.userName,jdbcType=VARCHAR},
+            user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            user_email = #{record.userEmail,jdbcType=VARCHAR},
+            user_type = #{record.userType,jdbcType=SMALLINT},
+            user_password = #{record.userPassword,jdbcType=VARCHAR},
+            user_status = #{record.userStatus,jdbcType=SMALLINT},
+            user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                user_remark = #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        set user_id = #{userId,jdbcType=CHAR},
+            user_name = #{userName,jdbcType=VARCHAR},
+            user_phone = #{userPhone,jdbcType=VARCHAR},
+            user_email = #{userEmail,jdbcType=VARCHAR},
+            user_type = #{userType,jdbcType=SMALLINT},
+            user_password = #{userPassword,jdbcType=VARCHAR},
+            user_status = #{userStatus,jdbcType=SMALLINT},
+            user_remark = #{userRemark,jdbcType=VARCHAR},
+            is_deleted = #{isDeleted,jdbcType=TINYINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+    <resultMap id="BaseResultMap" type="com.bxcm.user.bean.SysUser">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="CHAR" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+        <result column="user_type" jdbcType="SMALLINT" property="userType" />
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+        <result column="user_status" jdbcType="SMALLINT" property="userStatus" />
+        <result column="user_remark" jdbcType="VARCHAR" property="userRemark" />
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, user_id, user_name, user_phone, user_email, user_type, user_password, user_status, 
+        user_remark, is_deleted, create_time, update_time
+    </sql>
+    <select id="selectByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null and limit &gt;= 0">
+            limit #{offset} , #{limit}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </select>
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update sys_user set is_deleted = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="deleteByExample" parameterType="com.bxcm.user.bean.SysUserExample">
+        update sys_user set is_deleted = 1
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </update>
+    <insert id="insert" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user (user_id, user_name, user_phone, 
+            user_email, user_type, user_password, 
+            user_status, user_remark, is_deleted, 
+            create_time, update_time)
+        values (#{userId,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+            #{userEmail,jdbcType=VARCHAR}, #{userType,jdbcType=SMALLINT}, #{userPassword,jdbcType=VARCHAR}, 
+            #{userStatus,jdbcType=SMALLINT}, #{userRemark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, 
+            #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="userEmail != null">
+                user_email,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="userRemark != null">
+                user_remark,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultType="java.lang.Integer">
+        select count(*) from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_user
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=CHAR},
+            </if>
+            <if test="record.userName != null">
+                user_name = #{record.userName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userPhone != null">
+                user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userEmail != null">
+                user_email = #{record.userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userType != null">
+                user_type = #{record.userType,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userPassword != null">
+                user_password = #{record.userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userStatus != null">
+                user_status = #{record.userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userRemark != null">
+                user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isDeleted != null">
+                is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_user
+        set id = #{record.id,jdbcType=INTEGER},
+            user_id = #{record.userId,jdbcType=CHAR},
+            user_name = #{record.userName,jdbcType=VARCHAR},
+            user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            user_email = #{record.userEmail,jdbcType=VARCHAR},
+            user_type = #{record.userType,jdbcType=SMALLINT},
+            user_password = #{record.userPassword,jdbcType=VARCHAR},
+            user_status = #{record.userStatus,jdbcType=SMALLINT},
+            user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                user_remark = #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        set user_id = #{userId,jdbcType=CHAR},
+            user_name = #{userName,jdbcType=VARCHAR},
+            user_phone = #{userPhone,jdbcType=VARCHAR},
+            user_email = #{userEmail,jdbcType=VARCHAR},
+            user_type = #{userType,jdbcType=SMALLINT},
+            user_password = #{userPassword,jdbcType=VARCHAR},
+            user_status = #{userStatus,jdbcType=SMALLINT},
+            user_remark = #{userRemark,jdbcType=VARCHAR},
+            is_deleted = #{isDeleted,jdbcType=TINYINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+    <resultMap id="BaseResultMap" type="com.bxcm.user.bean.SysUser">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="CHAR" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+        <result column="user_type" jdbcType="SMALLINT" property="userType" />
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+        <result column="user_status" jdbcType="SMALLINT" property="userStatus" />
+        <result column="user_remark" jdbcType="VARCHAR" property="userRemark" />
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, user_id, user_name, user_phone, user_email, user_type, user_password, user_status, 
+        user_remark, is_deleted, create_time, update_time
+    </sql>
+    <select id="selectByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null and limit &gt;= 0">
+            limit #{offset} , #{limit}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </select>
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update sys_user set is_deleted = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="deleteByExample" parameterType="com.bxcm.user.bean.SysUserExample">
+        update sys_user set is_deleted = 1
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </update>
+    <insert id="insert" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user (user_id, user_name, user_phone, 
+            user_email, user_type, user_password, 
+            user_status, user_remark, is_deleted, 
+            create_time, update_time)
+        values (#{userId,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+            #{userEmail,jdbcType=VARCHAR}, #{userType,jdbcType=SMALLINT}, #{userPassword,jdbcType=VARCHAR}, 
+            #{userStatus,jdbcType=SMALLINT}, #{userRemark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, 
+            #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="userEmail != null">
+                user_email,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="userRemark != null">
+                user_remark,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultType="java.lang.Integer">
+        select count(*) from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_user
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=CHAR},
+            </if>
+            <if test="record.userName != null">
+                user_name = #{record.userName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userPhone != null">
+                user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userEmail != null">
+                user_email = #{record.userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userType != null">
+                user_type = #{record.userType,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userPassword != null">
+                user_password = #{record.userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userStatus != null">
+                user_status = #{record.userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userRemark != null">
+                user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isDeleted != null">
+                is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_user
+        set id = #{record.id,jdbcType=INTEGER},
+            user_id = #{record.userId,jdbcType=CHAR},
+            user_name = #{record.userName,jdbcType=VARCHAR},
+            user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            user_email = #{record.userEmail,jdbcType=VARCHAR},
+            user_type = #{record.userType,jdbcType=SMALLINT},
+            user_password = #{record.userPassword,jdbcType=VARCHAR},
+            user_status = #{record.userStatus,jdbcType=SMALLINT},
+            user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                user_remark = #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        set user_id = #{userId,jdbcType=CHAR},
+            user_name = #{userName,jdbcType=VARCHAR},
+            user_phone = #{userPhone,jdbcType=VARCHAR},
+            user_email = #{userEmail,jdbcType=VARCHAR},
+            user_type = #{userType,jdbcType=SMALLINT},
+            user_password = #{userPassword,jdbcType=VARCHAR},
+            user_status = #{userStatus,jdbcType=SMALLINT},
+            user_remark = #{userRemark,jdbcType=VARCHAR},
+            is_deleted = #{isDeleted,jdbcType=TINYINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+    <resultMap id="BaseResultMap" type="com.bxcm.user.bean.SysUser">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="CHAR" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="user_phone" jdbcType="VARCHAR" property="userPhone" />
+        <result column="user_email" jdbcType="VARCHAR" property="userEmail" />
+        <result column="user_type" jdbcType="SMALLINT" property="userType" />
+        <result column="user_password" jdbcType="VARCHAR" property="userPassword" />
+        <result column="user_status" jdbcType="SMALLINT" property="userStatus" />
+        <result column="user_remark" jdbcType="VARCHAR" property="userRemark" />
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+            <if test="1=1">
+                and is_deleted = 0
+            </if>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id, user_id, user_name, user_phone, user_email, user_type, user_password, user_status, 
+        user_remark, is_deleted, create_time, update_time
+    </sql>
+    <select id="selectByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null and limit &gt;= 0">
+            limit #{offset} , #{limit}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from sys_user
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </select>
+    <update id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        update sys_user set is_deleted = 1
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="deleteByExample" parameterType="com.bxcm.user.bean.SysUserExample">
+        update sys_user set is_deleted = 1
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </update>
+    <insert id="insert" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user (user_id, user_name, user_phone, 
+            user_email, user_type, user_password, 
+            user_status, user_remark, is_deleted, 
+            create_time, update_time)
+        values (#{userId,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, 
+            #{userEmail,jdbcType=VARCHAR}, #{userType,jdbcType=SMALLINT}, #{userPassword,jdbcType=VARCHAR}, 
+            #{userStatus,jdbcType=SMALLINT}, #{userRemark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, 
+            #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.bxcm.user.bean.SysUser">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userPhone != null">
+                user_phone,
+            </if>
+            <if test="userEmail != null">
+                user_email,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="userPassword != null">
+                user_password,
+            </if>
+            <if test="userStatus != null">
+                user_status,
+            </if>
+            <if test="userRemark != null">
+                user_remark,
+            </if>
+            <if test="isDeleted != null">
+                is_deleted,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.bxcm.user.bean.SysUserExample" resultType="java.lang.Integer">
+        select count(*) from sys_user
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_user
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=INTEGER},
+            </if>
+            <if test="record.userId != null">
+                user_id = #{record.userId,jdbcType=CHAR},
+            </if>
+            <if test="record.userName != null">
+                user_name = #{record.userName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userPhone != null">
+                user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userEmail != null">
+                user_email = #{record.userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userType != null">
+                user_type = #{record.userType,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userPassword != null">
+                user_password = #{record.userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userStatus != null">
+                user_status = #{record.userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="record.userRemark != null">
+                user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isDeleted != null">
+                is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_user
+        set id = #{record.id,jdbcType=INTEGER},
+            user_id = #{record.userId,jdbcType=CHAR},
+            user_name = #{record.userName,jdbcType=VARCHAR},
+            user_phone = #{record.userPhone,jdbcType=VARCHAR},
+            user_email = #{record.userEmail,jdbcType=VARCHAR},
+            user_type = #{record.userType,jdbcType=SMALLINT},
+            user_password = #{record.userPassword,jdbcType=VARCHAR},
+            user_status = #{record.userStatus,jdbcType=SMALLINT},
+            user_remark = #{record.userRemark,jdbcType=VARCHAR},
+            is_deleted = #{record.isDeleted,jdbcType=TINYINT},
+            create_time = #{record.createTime,jdbcType=TIMESTAMP},
+            update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=CHAR},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="userPhone != null">
+                user_phone = #{userPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="userEmail != null">
+                user_email = #{userEmail,jdbcType=VARCHAR},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=SMALLINT},
+            </if>
+            <if test="userPassword != null">
+                user_password = #{userPassword,jdbcType=VARCHAR},
+            </if>
+            <if test="userStatus != null">
+                user_status = #{userStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="userRemark != null">
+                user_remark = #{userRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.bxcm.user.bean.SysUser">
+        update sys_user
+        set user_id = #{userId,jdbcType=CHAR},
+            user_name = #{userName,jdbcType=VARCHAR},
+            user_phone = #{userPhone,jdbcType=VARCHAR},
+            user_email = #{userEmail,jdbcType=VARCHAR},
+            user_type = #{userType,jdbcType=SMALLINT},
+            user_password = #{userPassword,jdbcType=VARCHAR},
+            user_status = #{userStatus,jdbcType=SMALLINT},
+            user_remark = #{userRemark,jdbcType=VARCHAR},
+            is_deleted = #{isDeleted,jdbcType=TINYINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+        and is_deleted = 0
+    </update>
+</mapper>
