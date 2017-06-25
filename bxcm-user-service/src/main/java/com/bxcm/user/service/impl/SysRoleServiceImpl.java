@@ -1,9 +1,9 @@
 package com.bxcm.user.service.impl;
 
 import com.bxcm.common.bean.Pagination;
-import com.bxcm.user.bean.SysRole;
-import com.bxcm.user.bean.SysRoleExample;
-import com.bxcm.user.mapper.SysRoleMapper;
+import com.bxcm.user.dao.bean.SysRole;
+import com.bxcm.user.dao.bean.SysRoleExample;
+import com.bxcm.user.dao.mapper.SysRoleMapper;
 import com.bxcm.user.service.SysRoleService;
 import java.util.List;
 import org.slf4j.Logger;

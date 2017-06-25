@@ -1,9 +1,9 @@
 package com.bxcm.user.service.impl;
 
 import com.bxcm.common.bean.Pagination;
-import com.bxcm.user.bean.SysDomain;
-import com.bxcm.user.bean.SysDomainExample;
-import com.bxcm.user.mapper.SysDomainMapper;
+import com.bxcm.user.dao.bean.SysDomain;
+import com.bxcm.user.dao.bean.SysDomainExample;
+import com.bxcm.user.dao.mapper.SysDomainMapper;
 import com.bxcm.user.service.SysDomainService;
 import java.util.List;
 import org.slf4j.Logger;

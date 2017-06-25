@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd ">
 
     <mvc:annotation-driven/>
-    <context:component-scan base-package="com.bxcm.session.demo.web"/>
+    <context:component-scan base-package="com.bxcm.user.web"/>
  
     <mvc:annotation-driven>
         <mvc:message-converters register-defaults="true">
@@ -22,9 +22,10 @@
         </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <import resource="dubbo.xml"/>
+    <!-- <import resource="dubbo.xml"/> -->
     <!-- <import resource="disconf.xml"/> -->
 
-    <import resource="classpath:bxcm-session-biz.xml"/>
-    <import resource="classpath:bxcm-session-base.xml"/>
+    <import resource="classpath:bxcm-biz.xml"/>
+    <import resource="classpath:bxcm-service.xml"/>
+    <import resource="classpath:bxcm-dao.xml"/>
 </beans>

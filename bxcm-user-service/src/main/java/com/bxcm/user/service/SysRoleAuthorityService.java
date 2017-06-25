@@ -1,8 +1,8 @@
 package com.bxcm.user.service;
 
 import com.bxcm.common.bean.Pagination;
-import com.bxcm.user.bean.SysRoleAuthority;
-import com.bxcm.user.bean.SysRoleAuthorityExample;
+import com.bxcm.user.dao.bean.SysRoleAuthority;
+import com.bxcm.user.dao.bean.SysRoleAuthorityExample;
 import java.util.List;
 
 public interface SysRoleAuthorityService {

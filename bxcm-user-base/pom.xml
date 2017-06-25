@@ -10,6 +10,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>bxcm-user-base</artifactId>
+	<packaging>jar</packaging>
 
 	<properties>
 		<maven.deploy.skip>true</maven.deploy.skip>
@@ -17,13 +18,9 @@
 
 
 	<dependencies>
-		<dependency>
+		<dependency> 
 			<groupId>com.bxcm</groupId>
 			<artifactId>bxcm-base</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.baidu.disconf</groupId>
-			<artifactId>disconf-client</artifactId>
 		</dependency>
 
 		<!--Spring Framework -->

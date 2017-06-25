@@ -1,8 +1,8 @@
 package com.bxcm.user.service;
 
 import com.bxcm.common.bean.Pagination;
-import com.bxcm.user.bean.SysDomain;
-import com.bxcm.user.bean.SysDomainExample;
+import com.bxcm.user.dao.bean.SysDomain;
+import com.bxcm.user.dao.bean.SysDomainExample;
 import java.util.List;
 
 public interface SysDomainService {

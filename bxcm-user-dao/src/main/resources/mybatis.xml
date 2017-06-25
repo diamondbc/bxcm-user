@@ -13,7 +13,7 @@
 
     <typeAliases>
         <!-- 需要在实体类添加@Alias("别名") -->
-        <package name="com.bxcm.user..po"/>
+        <package name="com.bxcm.user.dao.bean"/>
     </typeAliases>
 
 </configuration>

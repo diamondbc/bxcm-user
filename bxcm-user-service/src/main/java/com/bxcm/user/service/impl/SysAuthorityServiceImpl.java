@@ -1,9 +1,9 @@
 package com.bxcm.user.service.impl;
 
 import com.bxcm.common.bean.Pagination;
-import com.bxcm.user.bean.SysAuthority;
-import com.bxcm.user.bean.SysAuthorityExample;
-import com.bxcm.user.mapper.SysAuthorityMapper;
+import com.bxcm.user.dao.bean.SysAuthority;
+import com.bxcm.user.dao.bean.SysAuthorityExample;
+import com.bxcm.user.dao.mapper.SysAuthorityMapper;
 import com.bxcm.user.service.SysAuthorityService;
 import java.util.List;
 import org.slf4j.Logger;

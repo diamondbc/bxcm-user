@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd ">
 
-	<context:component-scan base-package="com.bxcm.session.biz" />
+	<context:component-scan base-package="com.bxcm.user.biz" />
 	<bean id="redisHttpSessionConfiguration"
 		class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
 		<property name="maxInactiveIntervalInSeconds" value="600" />
@@ -18,13 +18,13 @@
 	<bean id="jedisConnectionFactory"
 		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
 		destroy-method="destroy">
-		<property name="hostName" value="${redis_hostname}" />
-		<property name="port" value="${redis_port}" />
-		<property name="password" value="${redis_pwd}" />
+		<property name="hostName" value="${redis.host}" />
+		<property name="port" value="${redis.port}" />
+		<property name="password" value="${redis.password}" />
 		<property name="timeout" value="3000" />
 		<property name="usePool" value="true" />
 		<property name="poolConfig" ref="jedisPoolConfig" />
 	</bean>
 
-	<import resource="bxcm-session-biz/dubbo-provider.xml" />
+	<!-- <import resource="bxcm-biz/dubbo-provider.xml" /> -->
 </beans>

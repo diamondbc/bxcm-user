@@ -1,8 +1,8 @@
 package com.bxcm.user.service;
 
 import com.bxcm.common.bean.Pagination;
-import com.bxcm.user.bean.SysUser;
-import com.bxcm.user.bean.SysUserExample;
+import com.bxcm.user.dao.bean.SysUser;
+import com.bxcm.user.dao.bean.SysUserExample;
 import java.util.List;
 
 public interface SysUserService {
